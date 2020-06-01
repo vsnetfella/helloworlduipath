@@ -20,5 +20,5 @@ steps:
 - powershell: |
     Import-Module UiPath.Powershell
     $token = Get-UiPathAuthToken -ClientId '8DEv1AMNXczW3y4U15LL3jYf62jK93n5' -UserKey 'K-KtSNfxHo5tfs_MhmNSlUkB-YGsU9gSXX72k2QI9wCBC' -AccountName 'Vijayffskoti' -CloudDeployment 'Production' -TenantName 'VijaykumarDkv9699751'
-    Add-UiPathPackage -PackageFile $(Build.ArtifactStagingDirectory)\HelloWorld.$(Build.BuildId).nupkg -AuthToken $token
+    Add-UiPathPackage -PackageFile $(Build.ArtifactStagingDirectory)\HelloWorld.1.0.$(Build.BuildId).nupkg -AuthToken $token
 

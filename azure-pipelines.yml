@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-latest'
 
 container:
-  image: uipathcontainerreg.azurecr.io/uipathrobot:16
+  image: uipathcontainerreg.azurecr.io/uipathrobot:18
   endpoint: UiPathContainerReg
 
 steps:

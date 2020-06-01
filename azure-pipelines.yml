@@ -9,8 +9,8 @@ pool:
   vmImage: 'windows-latest'
 
 container:
-  image: uipathcontainerreg.azurecr.io/$(uipathrobot):$(containerVersion)
-  endpoint: $(UiPathContainerReg)
+  image: uipathcontainerreg.azurecr.io/$(containerRepos):$(containerVersion)
+  endpoint: $(containerEndPoint)
 
 steps:
 - script: C:\UiPath\\UiRobot.exe pack $(Build.SourcesDirectory)\project.json -o $(Build.ArtifactStagingDirectory)\ -v 1.0.$(Build.BuildId)

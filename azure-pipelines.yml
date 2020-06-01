@@ -9,9 +9,11 @@ pool:
   vmImage: 'windows-latest'
 
 container:
-  image: uipathcontainerreg.azurecr.io/uipathrobot:18
+  image: uipathcontainerreg.azurecr.io/uipathrobot:16
   endpoint: UiPathContainerReg
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: C:\UiPath\\UiRobot.exe pack $(Build.SourcesDirectory)\project.json -o $(Build.ArtifactStagingDirectory)\ -v 1.0.$(Build.BuildId)
+  displayName: 'Build Artifact'
+- publish: $(Build.ArtifactStagingDirectory)
+  artifact: drop

@@ -9,11 +9,16 @@ pool:
   vmImage: 'windows-latest'
 
 container:
-  image: uipathcontainerreg.azurecr.io/$(containerRepos):$(containerVersion)
-  endpoint: $(containerEndPoint)
+  image: uipathcontainerreg.azurecr.io/uipathrobot:18
+  endpoint: UiPathContainerReg
 
 steps:
 - script: C:\UiPath\\UiRobot.exe pack $(Build.SourcesDirectory)\project.json -o $(Build.ArtifactStagingDirectory)\ -v 1.0.$(Build.BuildId)
   displayName: 'Build Artifact'
 - publish: $(Build.ArtifactStagingDirectory)
   artifact: drop
+- powershell: |
+    Import-Module UiPath.Powershell
+    $token = Get-UiPathAuthToken -ClientId $(uatClientID) -UserKey $(uatUserKey) -AccountName $(uatAccountName) -CloudDeployment $(uatCloudDeployment) -TenantName $(uatTenantName)
+    Add-UiPathPackage -PackageFile $(Build.ArtifactStagingDirectory)\HelloWorld.$(Build.BuildId).nupkg -AuthToken $token
+

@@ -71,5 +71,5 @@ stages:
                     displayName: Download artifact on build agent
                   - powershell: |
                       Import-Module UiPath.Powershell
-                      $token = Get-UiPathAuthToken -ClientId $(prodClientID) -UserKey $(prodUserKey) -AccountName 'myorctenancy'  -CloudDeployment 'Production' -TenantName 'myorctenancy' 
+                      $token = Get-UiPathAuthToken -ClientId '8DEv1AMNXczW3y4U15LL3jYf62jK93n5'  -UserKey 'sxz8qp8wG6ssx-UWZTDWrzDy9EhwUmbc-msjQaSBhshd7' -AccountName 'myorctenancy'  -CloudDeployment 'Production' -TenantName 'myorctenancy' 
                       Add-UiPathPackage -PackageFile $(Pipeline.Workspace)\drop\HelloWorld.1.0.$(Build.BuildId).nupkg -AuthToken $token

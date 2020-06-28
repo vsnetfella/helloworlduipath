@@ -30,7 +30,7 @@ stages:
     condition:  succeeded()
     jobs:
       - deployment:  deployUAT
-        displayName:  Deploy package to UAT
+        displayName:  Deploy package to UAT Orchestrator
         container:
           image: uipathcontainerreg.azurecr.io/uipathrobot:18
           endpoint: UiPathContainerReg
@@ -46,5 +46,30 @@ stages:
                     displayName: Download artifact on build agent
                   - powershell: |
                       Import-Module UiPath.Powershell
-                      $token = Get-UiPathAuthToken -ClientId $(uatClientID) -UserKey $(uatUserKey) -AccountName $(uatAccountName) -CloudDeployment $(uatCloudDeployment) -TenantName $(uatTenantName)
+                      $token = Get-UiPathAuthToken -ClientId $(uatClientID) -UserKey $(uatUserKey) -AccountName 'Vijayffskoti' -CloudDeployment 'Production' -TenantName 'VijaykumarDkv9699751'
+                      Add-UiPathPackage -PackageFile $(Pipeline.Workspace)\drop\HelloWorld.1.0.$(Build.BuildId).nupkg -AuthToken $token
+
+  - stage: DeployProd
+    displayName:  Deploy build artifact to PROD
+    dependsOn:  DeployUAT
+    condition:  succeeded()
+    jobs:
+      - deployment:  deployProd
+        displayName:  Deploy package to PROD Orchestrator
+        container:
+          image: uipathcontainerreg.azurecr.io/uipathrobot:18
+          endpoint: UiPathContainerReg
+        pool:
+          vmImage: 'windows-latest'
+        environment:  PROD
+        strategy:
+          runOnce:
+              deploy:
+                steps:
+                  - download: current
+                    artifact: drop
+                    displayName: Download artifact on build agent
+                  - powershell: |
+                      Import-Module UiPath.Powershell
+                      $token = Get-UiPathAuthToken -ClientId $(prodClientID) -UserKey $(prodUserKey) -AccountName 'myorctenancy'  -CloudDeployment 'Production' -TenantName 'myorctenancy' 
                       Add-UiPathPackage -PackageFile $(Pipeline.Workspace)\drop\HelloWorld.1.0.$(Build.BuildId).nupkg -AuthToken $token
